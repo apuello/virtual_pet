@@ -65,14 +65,50 @@ var GameState = {
 
     //nothing is selected
     this.selectedItem = null;
+    this.uiBlocked = false;
 
   },
   pickItem: function(sprite, event){
-    console.log('pick item');
+    if (!this.uiBlocked) {
+      console.log('pick item');
+
+      this.clearSelection();
+
+      sprite.alpha = 0.4;
+
+      this.selectedItem = sprite;
+    };
   },
   rotatePet: function(sprite, event){
-    console.log('rotate pet');
+    if (!this.uiBlocked) {
+      console.log('rotate pet');
+
+      this.uiBlocked = true;
+
+      this.clearSelection();
+
+      sprite.alpha = 0.4;
+
+      var petRotation = this.game.add.tween(this.pet);
+
+      petRotation.to({angle: '+720'}, 1000);
+
+      petRotation.start();
+
+      petRotation.onComplete.add(function(){
+        this.uiBlocked = false;
+        sprite.alpha = 1;
+        this.pet.customParams.fun += 10;
+        this.uiBlocked = false;
+      }, this);
+
+    };
   },
+  clearSelection: function(){
+    this.buttons.forEach(function(element, index){
+      element.alpha = 1;
+    })
+  }
   
 };
 
