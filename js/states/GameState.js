@@ -168,7 +168,7 @@ var GameState = {
     };
   },
   gameOver: function(){
-    this.game.state.restart();
+    this.game.state.start('HomeState', true, false, 'GAME OVer');
   }
   
 };
